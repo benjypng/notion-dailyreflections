@@ -38,12 +38,16 @@ export const createNotionPage = async (
     await appendContent(
       notion,
       parentId,
-      "What is the most storyworthy moment yesterday",
+      "Reflect on where you felt God’s invitation in today’s readings. What is God inviting you to think, feel, or do differently in your life?",
     );
     sleep(2000);
     await appendList(notion, parentId, "...");
     sleep(2000);
-    await appendContent(notion, parentId, "What should I strive to do better");
+    await appendContent(
+      notion,
+      parentId,
+      "Recall a recent day that seemed ordinary but contained a moment that stood out, even if it was subtle. Describe this moment and why it caught your attention. What was happening around you, and what thoughts or feelings surfaced? How did this moment shift your usual routine or perspective? Explore the underlying significance of this event—why does it matter, and what does it reveal about you or your world? Consider how this story could be told to teach, persuade, or engage others, and how it represents a change or growth in your life.",
+    );
     sleep(2000);
     await appendList(notion, parentId, "...");
   } catch (error) {
