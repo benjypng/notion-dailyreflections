@@ -8,7 +8,7 @@ import { appendList } from "./notion/append-list";
 export const createNotionPage = async (
   creighton: { url: string; reflections: string },
   gospel: { reading: string; url: string; passage: string },
-): Promise<void> => {
+): Promise<string> => {
   const notion = new Client({
     auth: process.env.NOTION_TOKEN,
   });
@@ -50,7 +50,9 @@ export const createNotionPage = async (
     );
     sleep(2000);
     await appendList(notion, parentId, "...");
+    return "Reflection successfully sent to Notion";
   } catch (error) {
     console.error(error);
+    throw new Error("Reflection not sent to Notion");
   }
 };

@@ -6,15 +6,15 @@ import { CronJob } from "cron";
 
 dotenv.config();
 
-const main = async () => {
+export const main = async () => {
   const creighton = await getCreighton();
   const gospel = await getGospel();
-  await createNotionPage(creighton, gospel);
+  return await createNotionPage(creighton, gospel);
 };
 
 new CronJob(
   "0 5 * * *",
-  async function() {
+  async function () {
     try {
       console.log(`Executing script at ${new Date().toLocaleString()}`);
       await main();
@@ -30,11 +30,14 @@ new CronJob(
 );
 
 //The below is for testing purposes
-// main()
-//   .then(() => process.exit(0))
-//   .catch((err) => {
-//     console.error(err);
-//     process.exit(1);
-//   });
+main()
+  .then((result) => {
+    console.log(result);
+    process.exit(0);
+  })
+  .catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
 
-console.log(`Container running on ${new Date()}`);
+console.log(`Container running on date: ${new Date()}`);
