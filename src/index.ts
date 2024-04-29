@@ -29,15 +29,4 @@ new CronJob(
   "Asia/Singapore",
 );
 
-//The below is for testing purposes
-main()
-  .then((result) => {
-    console.log(result);
-    process.exit(0);
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
-
 console.log(`Container running on date: ${new Date()}`);
