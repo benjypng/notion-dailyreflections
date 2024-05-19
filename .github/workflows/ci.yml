@@ -40,6 +40,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: hkgnp/${{ env.DOCKER_NAME }}:${{ steps.semantic_release.outputs.version }}
+          tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_NAME }}:latest
           build-args: |
             SOME_ARG=${{ steps.semantic_release.outputs.version }}
