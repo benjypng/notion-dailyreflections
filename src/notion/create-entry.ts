@@ -33,7 +33,7 @@ export const createEntry = async (
         type: "url",
         url: creightonUrl,
       },
-      USCCB: {
+      Universalis: {
         type: "url",
         url: gospelUrl,
       },

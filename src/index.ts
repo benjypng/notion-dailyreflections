@@ -28,7 +28,8 @@ export const main = async () => {
     console.error(error);
   }
 
-  await createNotionPage(creighton, gospel);
+  // Returning await for the test
+  return await createNotionPage(creighton, gospel);
 };
 
 new CronJob(

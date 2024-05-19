@@ -16,7 +16,7 @@ export const getGospel = async (): Promise<{
   // https://www.universalis.com/20240519/jsonpmass.js
   const url = `https://www.universalis.com/${getYYYYMMDD(
     new Date(),
-  )}.jsonpmass.js`;
+  )}/jsonpmass.js`;
 
   try {
     const response = await axios.get(url);
@@ -38,10 +38,9 @@ export const getGospel = async (): Promise<{
 
     // Attempt to parse JSON and handle potential errors
     const jsonData = JSON.parse(data);
-
     const gospel: UJson = jsonData.Mass_G;
-    const reading = gospel.text;
-    const passage = gospel.source;
+    const reading = gospel.source;
+    const passage = gospel.text;
 
     return {
       url,
