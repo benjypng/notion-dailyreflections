@@ -1,7 +1,9 @@
 import dayjs from "dayjs";
 
 export const creightonGospelDate = (date: Date) => {
-  const modDate = dayjs(date).format("MMDDYY");
-  console.log(`The date being retrieved is ${modDate}`);
-  return modDate;
+  return dayjs(date).format("MMDDYY");
+};
+
+export const getYYYYMMDD = (date: Date) => {
+  return dayjs(date).format("YYYYMMDD");
 };

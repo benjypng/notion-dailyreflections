@@ -1,63 +1,54 @@
 import axios from "axios";
-import { convert } from "html-to-text";
-import { creightonGospelDate } from "./get-date";
-import { sleep } from "./sleep";
+import { getYYYYMMDD } from "./get-date";
+
+type UJson = {
+  heading: string;
+  source: string;
+  text: string;
+};
 
 // Get Gospel in a string
 export const getGospel = async (): Promise<{
   url: string;
   reading: string;
   passage: string;
-}> => {
-  const url = `https://bible.usccb.org/bible/readings/${creightonGospelDate(
+} | void> => {
+  // https://www.universalis.com/20240519/jsonpmass.js
+  const url = `https://www.universalis.com/${getYYYYMMDD(
     new Date(),
-  )}.cfm`;
-  const bibleResponse = await axios.get(url);
-  const text = convert(bibleResponse.data, {
-    baseElements: {
-      selectors: ["div.page-container"],
-    },
-    wordwrap: false,
-  });
-  const regex = /GOSPEL\n\n(.*?)\[/g.exec(text);
-  if (!regex || !regex[1]) return { url: "", reading: "", passage: "" };
-  const reading = regex[1].trim();
+  )}.jsonpmass.js`;
 
-  let passage;
-  if (reading.includes(",")) {
-    const author = reading.substring(0, 2);
-    const chapter = reading.substring(2, reading.indexOf(":"));
-    const readingArr = reading.substring(reading.indexOf(":") + 1).split(",");
+  try {
+    const response = await axios.get(url);
+    let { data } = response;
 
-    const passageArr = [];
-    for (const r of readingArr) {
-      const reading = await axios.get(
-        `https://api.esv.org/v3/passage/text/?q=${author} ${chapter}:${r}`,
-        {
-          headers: {
-            Authorization: `Token ${process.env.GOSPEL_API}`,
-          },
-        },
-      );
-      passageArr.push(reading.data.passages[0]);
-      sleep(2000);
-    }
-    passage = passageArr.join(" ");
-  } else {
-    const passageResponse = await axios.get(
-      `https://api.esv.org/v3/passage/text/?q=${reading}`,
-      {
-        headers: {
-          Authorization: `Token ${process.env.GOSPEL_API}`,
-        },
-      },
-    );
-    passage = passageResponse.data.passages[0];
+    // Ensure that data is a single line
+    data = data.replace(/\s+/g, " ").trim();
+
+    // Extract the JSON string
+    const jsonStart = data.indexOf("{");
+    const jsonEnd = data.lastIndexOf("}") + 1;
+    data = data.slice(jsonStart, jsonEnd);
+
+    // Regular expression to remove HTML tags and HTML entities
+    data = data.replace(/<\/?[^>]+(>|$)|&#[0-9a-zA-Z]+;/g, "");
+
+    // Replace specific HTML entities
+    data = data.replace(/&#8217;/g, "'");
+
+    // Attempt to parse JSON and handle potential errors
+    const jsonData = JSON.parse(data);
+
+    const gospel: UJson = jsonData.Mass_G;
+    const reading = gospel.text;
+    const passage = gospel.source;
+
+    return {
+      url,
+      reading,
+      passage,
+    };
+  } catch (error) {
+    console.error(error);
   }
-
-  return {
-    url,
-    reading,
-    passage,
-  };
 };
