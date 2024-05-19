@@ -41,5 +41,3 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ env.DOCKER_USERNAME }}/${{ env.DOCKER_NAME }}:latest
-          build-args: |
-            SOME_ARG=${{ steps.semantic_release.outputs.version }}
