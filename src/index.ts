@@ -6,10 +6,29 @@ import { CronJob } from "cron";
 
 dotenv.config();
 
+// Get Universalis Gospel. Write to Notion.
+// Get Creighton. Write to Notion.
+// The above should not need to depend on each other. Eg if one fails, the other should still be able to write to Notion.
+
 export const main = async () => {
-  const creighton = await getCreighton();
-  const gospel = await getGospel();
-  return await createNotionPage(creighton, gospel);
+  let creighton = { url: "", reflections: "" };
+  let gospel = { url: "", reading: "", passage: "" };
+
+  try {
+    const response = await getCreighton();
+    if (response) creighton = response;
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
+    const response = await getGospel();
+    if (response) gospel = response;
+  } catch (error) {
+    console.error(error);
+  }
+
+  await createNotionPage(creighton, gospel);
 };
 
 new CronJob(
@@ -20,7 +39,7 @@ new CronJob(
       await main();
       console.log("Reflection successfully sent to Notion");
     } catch (error) {
-      console.error(error);
+      console.log(error);
       console.log("Error executing script");
     }
   },
