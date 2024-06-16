@@ -4,8 +4,10 @@ import { appendHeadings } from "./notion/append-headings";
 import { appendContent } from "./notion/append-content";
 import { sleep } from "./sleep";
 import { appendList } from "./notion/append-list";
+import { Dayjs } from "dayjs";
 
 export const createNotionPage = async (
+  date: Dayjs,
   creighton: { url: string; reflections: string },
   gospel: { reading: string; url: string; passage: string },
 ): Promise<string> => {
@@ -15,6 +17,7 @@ export const createNotionPage = async (
 
   try {
     const parentId = await createEntry(
+      date,
       notion,
       gospel.reading,
       gospel.url,

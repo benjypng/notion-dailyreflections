@@ -14,7 +14,8 @@ dayjs.extend(timezone);
 // Get Creighton. Write to Notion.
 // The above should not need to depend on each other. Eg if one fails, the other should still be able to write to Notion.
 
-export const main = async () => {
+export const handler = async () => {
+  console.log(`Container running on date: ${new Date()}`);
   const date = dayjs().tz("Asia/Singapore");
 
   let creighton = { url: "", reflections: "" };
@@ -35,7 +36,5 @@ export const main = async () => {
   }
 
   // Returning await for the test
-  return await createNotionPage(creighton, gospel);
+  return await createNotionPage(date, creighton, gospel);
 };
-
-console.log(`Container running on date: ${new Date()}`);

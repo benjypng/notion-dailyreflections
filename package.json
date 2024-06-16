@@ -4,7 +4,10 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "docker:build": "docker buildx build --no-cache --platform linux/amd64 -t notion-dailyreflections:latest --load .",
+    "docker:tag": "docker tag notion-dailyreflections:latest",
+    "docker:push": "docker push"
   },
   "author": "hkgnp",
   "license": "MIT",

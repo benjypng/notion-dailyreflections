@@ -1,8 +1,8 @@
 import { Client } from "@notionhq/client";
-import dayjs from "dayjs";
+import { Dayjs } from "dayjs";
 
 export const createEntry = async (
-  date: Date,
+  date: Dayjs,
   notion: Client,
   gospelReading: string,
   gospelUrl: string,
@@ -27,7 +27,7 @@ export const createEntry = async (
       Date: {
         type: "date",
         date: {
-          start: dayjs(date).format("YYYY-MM-DD"),
+          start: date.format("YYYY-MM-DD"),
         },
       },
       Creighton: {
