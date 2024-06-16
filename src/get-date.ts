@@ -1,9 +1,10 @@
 import dayjs from "dayjs";
+import { Dayjs } from "dayjs";
 
-export const creightonGospelDate = (date: Date) => {
+export const creightonGospelDate = (date: Dayjs) => {
   return dayjs(date).format("MMDDYY");
 };
 
-export const getYYYYMMDD = (date: Date) => {
+export const getYYYYMMDD = (date: Dayjs) => {
   return dayjs(date).format("YYYYMMDD");
 };

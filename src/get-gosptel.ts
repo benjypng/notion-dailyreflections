@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getYYYYMMDD } from "./get-date";
+import { Dayjs } from "dayjs";
 
 type UJson = {
   heading: string;
@@ -8,15 +9,15 @@ type UJson = {
 };
 
 // Get Gospel in a string
-export const getGospel = async (): Promise<{
+export const getGospel = async (
+  date: Dayjs,
+): Promise<{
   url: string;
   reading: string;
   passage: string;
 } | void> => {
   // https://www.universalis.com/20240519/jsonpmass.js
-  const url = `https://www.universalis.com/${getYYYYMMDD(
-    new Date(),
-  )}/jsonpmass.js`;
+  const url = `https://www.universalis.com/${getYYYYMMDD(date)}/jsonpmass.js`;
 
   try {
     const response = await axios.get(url);
