@@ -20,8 +20,6 @@ npm run docker: push -- <insert ECR URI>
 
 4. Setup CloudWatch based on the cron configuration of your choosing.
 
-### Configuration
-
 ## Unraid
 
 ### Configuration
