@@ -1,4 +1,10 @@
-node_modules
-dist
-.env
-.DS_Store
+bruno
+.idea/
+.vscode/
+node_modules/
+build/
+dist/
+tmp/
+temp/
+.env*
+*.sqlite

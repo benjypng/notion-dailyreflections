@@ -1,25 +1,26 @@
-import axios from "axios";
-import { convert } from "html-to-text";
-import { creightonGospelDate } from "./get-date";
-import { Dayjs } from "dayjs";
+import axios from 'axios'
+import { Dayjs } from 'dayjs'
+import { convert } from 'html-to-text'
+
+import { creightonGospelDate } from './get-date'
 
 export const getCreighton = async (
   date: Dayjs,
 ): Promise<{
-  url: string;
-  reflections: string;
+  url: string
+  reflections: string
 } | void> => {
   const url = `https://onlineministries.creighton.edu/CollaborativeMinistry/${creightonGospelDate(
     date,
-  )}.html`;
+  )}.html`
   try {
-    const response = await axios.get(url);
+    const response = await axios.get(url)
     const reflections = convert(response.data, {
-      baseElements: { selectors: ["td.Reflection-text"] },
+      baseElements: { selectors: ['td.Reflection-text'] },
       wordwrap: false,
-    });
-    return { url, reflections };
+    })
+    return { url, reflections }
   } catch (error) {
-    console.error(error);
+    console.error(error)
   }
-};
+}

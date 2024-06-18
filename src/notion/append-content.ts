@@ -1,6 +1,7 @@
-import { Client } from "@notionhq/client";
-import { splitLongString } from "../split-long-string";
-import { sleep } from "../sleep";
+import { Client } from '@notionhq/client'
+
+import { sleep } from '../sleep'
+import { splitLongString } from '../split-long-string'
 
 export const appendContent = async (
   notion: Client,
@@ -12,7 +13,7 @@ export const appendContent = async (
       block_id: parentId,
       children: [
         {
-          object: "block",
+          object: 'block',
           paragraph: {
             rich_text: [
               {
@@ -24,19 +25,19 @@ export const appendContent = async (
           },
         },
       ],
-    });
-  };
+    })
+  }
 
   if (text.length > 2000) {
-    console.log("Long text");
-    const textArr = splitLongString(text, 1999);
+    console.log('Long text')
+    const textArr = splitLongString(text, 1999)
     for (const t of textArr) {
-      await sleep(2000);
-      await appendChildren(t);
-      await sleep(2000);
+      await sleep(2000)
+      await appendChildren(t)
+      await sleep(2000)
     }
   } else {
-    console.log("Short text");
-    await appendChildren(text);
+    console.log('Short text')
+    await appendChildren(text)
   }
-};
+}
